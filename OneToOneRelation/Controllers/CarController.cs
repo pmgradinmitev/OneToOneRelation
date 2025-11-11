@@ -46,7 +46,7 @@ namespace OneToOneRelation.Controllers
                     if (ex.InnerException != null && ex.InnerException.Message.Contains("UNIQUE", StringComparison.OrdinalIgnoreCase))
                         ModelState.AddModelError("PlateNumber", $"Кола с регистрационен номер {viewModel.PlateNumber} вече съществува!");
                     else
-                        throw;
+                        TempData["error"] = "Неочаквана грешка при добавянето на колата.";
                 }
                 catch (Exception)
                 {
@@ -94,7 +94,7 @@ namespace OneToOneRelation.Controllers
                     if (ex.InnerException != null && ex.InnerException.Message.Contains("UNIQUE", StringComparison.OrdinalIgnoreCase))
                         ModelState.AddModelError("PlateNumber", $"Кола с регистрационен номер {viewModel.PlateNumber} вече съществува!");
                     else
-                        throw;
+                        TempData["error"] = "Неочаквана грешка при запазването на колата.";
                 }
                 catch (Exception)
                 {
