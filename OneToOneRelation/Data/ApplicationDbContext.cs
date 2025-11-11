@@ -20,6 +20,10 @@ namespace OneToOneRelation.Data
             modelBuilder.Entity<CarRegistration>()
                 .HasIndex(r => r.CarId)
                 .IsUnique();
+
+            modelBuilder.Entity<CarRegistration>()
+               .HasIndex(r => r.PlateNumber)
+               .IsUnique();
         }
     }
 }

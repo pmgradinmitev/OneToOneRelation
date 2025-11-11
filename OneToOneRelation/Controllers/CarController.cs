@@ -40,9 +40,17 @@ namespace OneToOneRelation.Controllers
                     _context.SaveChanges();
                     TempData["success"] = $"Кола \"{entity.Model}\" е добавена успешно!";
                 }
-                catch
+                catch (DbUpdateException ex)
                 {
-                    TempData["error"] = "Колата не може да бъде добавена!";
+                    // Check if the exception is caused by a unique constraint violation
+                    if (ex.InnerException != null && ex.InnerException.Message.Contains("UNIQUE", StringComparison.OrdinalIgnoreCase))
+                        ModelState.AddModelError("PlateNumber", $"Кола с регистрационен номер {viewModel.PlateNumber} вече съществува!");
+                    else
+                        throw;
+                }
+                catch (Exception)
+                {
+                    TempData["error"] = "Неочаквана грешка при добавянето на колата.";
                 }
             }
             return View(viewModel);
@@ -80,9 +88,17 @@ namespace OneToOneRelation.Controllers
                     _context.SaveChanges();
                     TempData["success"] = $"Кола \"{entity.Model}\" е записана успешно!";
                 }
-                catch
+                catch (DbUpdateException ex)
                 {
-                    TempData["error"] = "Промените не бяха записани!";
+                    // Check if the exception is caused by a unique constraint violation
+                    if (ex.InnerException != null && ex.InnerException.Message.Contains("UNIQUE", StringComparison.OrdinalIgnoreCase))
+                        ModelState.AddModelError("PlateNumber", $"Кола с регистрационен номер {viewModel.PlateNumber} вече съществува!");
+                    else
+                        throw;
+                }
+                catch (Exception)
+                {
+                    TempData["error"] = "Неочаквана грешка при запазването на колата.";
                 }
             }
             return View(viewModel);
